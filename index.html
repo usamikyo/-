@@ -27,10 +27,10 @@ details.guide-accordion[open] summary::before{transform:rotate(90deg)}
 </style>
 </head>
 <body><div id="app">
-<header><h1>北京旅行2026｜事前準備チェック</h1><div class="sub">2026/10/23〜10/26　4人共有用チェックリスト</div></header>
+<header><h1>北京旅行2026｜事前準備チェック</h1><div class="sub">2026/10/23〜10/26 4人共有用チェックリスト</div></header>
 <main class="wrap">
 <section class="top"><div class="progress"><div class="summary"><span>全体 <b id="count">0 / 0</b></span><span>進捗 <b id="pct">0%</b></span><span>表示 <b id="shown">0</b>件</span></div><div class="bar"><i id="bar"></i></div></div>
-<div class="controls"><select id="person"><option value="all">担当者：全員</option><option>代表</option><option>メンバー1</option><option>メンバー2</option><option>メンバー3</option></select><button class="primary" id="clearDone">完了を非表示</button><button id="reset">この端末のチェックをリセット</button></div></section>
+<div class="controls"><select id="person"><option value="all">担当者：全員</option><option value="leader">担当者：代表</option></select><button class="primary" id="clearDone">完了を非表示</button><button id="reset">この端末のチェックをリセット</button></div></section>
 <div class="filters" id="filters"><span class="chip active" data-filter="all">すべて</span><span class="chip" data-filter="open">未完了</span><span class="chip" data-filter="done">完了</span><span class="chip" data-filter="important">重要</span></div>
 <div class="list" id="list"></div>
 </main></div>
@@ -82,7 +82,7 @@ const tasks=[
     "detail": "【目的】長城の現地入場をスムーズに行うため\n【手順】\n1. 12306内の観光予約サービス、または八達嶺公式予約サイト/WeChatミニプログラムを開く。\n2. 実名制予約のため、全員分のパスポート情報を入力して予約を完了させる。\n※高鉄の乗車券とはシステムが別のため、個別に手配が必要です。"
   },
   {
-    "id": 9, "when": "10/18 21:00", "task": "故宮（紫禁城）入場予約", "assignee": "代表/全員", "category": "優先度：高",
+    "id": 9, "when": "10/18 21:00", "task": "故宮（紫禁城）入場予約", "assignee": "代表", "category": "優先度：高",
     "note": "10/25午後枠を手配。WeChat「故宮博物院」等。",
     "detail": "【目的】10/25（日）午後の故宮博物院見学チケットの確保のため\n【発売開始】訪問7日前の20:00（北京時間）＝ 日本時間 21:00 JST即時手配\n【指定システム】WeChatミニプログラム「故宮博物院」\n【手順】\n1. 21:00ちょうどにWeChatミニプログラム「故宮博物院」を起動。\n2. 10/25午後枠（11:00以降検票可）を選択し、全員分のパスポート情報を入力して決済。\n※無断キャンセル規定があるため、万が一訪問しない場合は事前に取消が必要。"
   },
@@ -175,12 +175,16 @@ function isDone(t){return !!state[t.id]}
 function important(t){return /必須|優先度：高/.test(t.category)}
 function save(){localStorage.setItem(KEY,JSON.stringify(state)); render()}
 function render(){
- const person=document.getElementById("person").value;
- const visible=tasks.filter(t=>
-   (person==="all" || t.assignee==="全員" || t.assignee.includes(person)) &&
-   (filter==="all" || (filter==="open"&&!isDone(t)) || (filter==="done"&&isDone(t)) || (filter==="important"&&important(t))) &&
-   (!hideDone || !isDone(t))
- );
+ const personMode=document.getElementById("person").value; // "all" (全員) または "leader" (代表)
+ const visible=tasks.filter(t=>{
+   // モード切り替えロジック
+   // "leader": 代表者が担当する手手配・予約タスク（t.assignee === "代表"）
+   // "all": 代表者以外の一般メンバーが実施する共通タスク（t.assignee === "全員"）
+   const matchPerson = (personMode === "leader") ? (t.assignee === "代表") : (t.assignee === "全員");
+   const matchFilter = (filter==="all" || (filter==="open"&&!isDone(t)) || (filter==="done"&&isDone(t)) || (filter==="important"&&important(t)));
+   const matchHide = (!hideDone || !isDone(t));
+   return matchPerson && matchFilter && matchHide;
+ });
  const total=tasks.length, done=tasks.filter(isDone).length, pct=total?Math.round(done/total*100):0;
  document.getElementById("count").textContent=`${done} / ${total}`;
  document.getElementById("pct").textContent=pct+"%";
