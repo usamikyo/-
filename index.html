@@ -14,6 +14,15 @@ header{padding:24px 18px 14px;max-width:1050px;margin:auto} h1{font-size:25px;ma
 .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px} .chip{padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:13px;cursor:pointer} .chip.active{border-color:var(--accent);color:var(--accent)}
 .list{display:grid;gap:9px} .card{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start} .card.done{opacity:.62} .check{width:24px;height:24px;margin-top:2px;accent-color:var(--accent)} .task{font-weight:700;line-height:1.4} .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px} .tag{font-size:11px;padding:3px 7px;border-radius:999px;background:var(--surface2);color:var(--muted)} .tag.important{color:var(--danger)} .when{font-size:12px;color:var(--muted);white-space:nowrap} .note{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.5}
 .summary{display:flex;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--muted)} .summary b{color:var(--text)} .empty{text-align:center;color:var(--muted);padding:35px}
+
+/* プルダウン（アコーディオン）用スタイル */
+details.guide-accordion{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+details.guide-accordion summary{font-size:12px;font-weight:700;color:var(--accent);cursor:pointer;list-style:none;display:flex;align-items:center;gap:4px}
+details.guide-accordion summary::-webkit-details-marker{display:none}
+details.guide-accordion summary::before{content:"▶";font-size:10px;transition:transform .2s}
+details.guide-accordion[open] summary::before{transform:rotate(90deg)}
+.guide-content{font-size:12px;line-height:1.6;color:var(--text);background:var(--surface2);border-radius:8px;padding:10px;margin-top:6px;white-space:pre-wrap}
+
 @media(max-width:700px){.top{grid-template-columns:1fr} .card{grid-template-columns:auto 1fr} .when{grid-column:2} h1{font-size:22px}}
 </style>
 </head>
@@ -26,7 +35,139 @@ header{padding:24px 18px 14px;max-width:1050px;margin:auto} h1{font-size:25px;ma
 <div class="list" id="list"></div>
 </main></div>
 <script>
-const tasks=[{"id": 0, "when": "今すぐ", "task": "パスポート有効期限確認", "assignee": "全員", "category": "必須", "note": "中国側の必要残存期間は資料上未確認。6か月以上は安全側の目安。"}, {"id": 1, "when": "今すぐ", "task": "Alipay ＆ WeChat Pay 実名認証", "assignee": "全員", "category": "推奨手続", "note": "アプリDL・クレカ紐付け・パスポート認証。"}, {"id": 2, "when": "今すぐ", "task": "Alipay地下鉄QR開通", "assignee": "全員", "category": "推奨手続", "note": "北京設定 → 出行 → 地下鉄/Metro。"}, {"id": 3, "when": "今すぐ", "task": "eSIM手配", "assignee": "全員", "category": "推奨手続", "note": "VPN不要/LINE・Google利用可能と明記されたローミング型を想定。"}, {"id": 4, "when": "今すぐ", "task": "ホテルへの深夜到着連絡", "assignee": "代表", "category": "推奨手続", "note": "10/24未明02:00頃着。CA422・到着予定・宿泊者名・予約番号を連絡。"}, {"id": 5, "when": "今すぐ〜10/10", "task": "12306アカウント登録・パスポート本人確認", "assignee": "代表", "category": "優先度：高", "note": "パスポート情報を入力し、本人確認まで完了。"}, {"id": 6, "when": "今すぐ〜出発前", "task": "海外旅行保険・たびレジ", "assignee": "全員", "category": "推奨手続", "note": "出発前に加入・登録。"}, {"id": 7, "when": "10/11頃", "task": "京張高鉄チケット手配", "assignee": "代表", "category": "優先度：高", "note": "北京北駅を最優先、満席なら清河駅。往復を確保。"}, {"id": 8, "when": "10/11頃", "task": "八達嶺長城入場券手配", "assignee": "代表", "category": "予約推奨", "note": "高鉄切符とは別システム。実名制予約を確認。"}, {"id": 9, "when": "10/18 21:00", "task": "故宮（紫禁城）入場予約", "assignee": "代表/全員", "category": "優先度：高", "note": "10/25午後枠を手配。WeChat「故宮博物院」等。"}, {"id": 10, "when": "10/18 21:00", "task": "天安門広場の予約要否確認", "assignee": "代表", "category": "要確認", "note": "故宮予約者の別途予約不要という2022年発表があるが、現行運用は出発前再確認。"}, {"id": 11, "when": "出発前", "task": "北京動物園の入園方法確認・手配", "assignee": "代表", "category": "要確認", "note": "外国人のWeChat予約、共通券19元等を公式案内で再確認。"}, {"id": 12, "when": "10/24前", "task": "北京国家博物館の雨天代替予約", "assignee": "代表", "category": "要確認", "note": "雨天代替として使う場合のみ。予約時段に沿った入館が必要。"}, {"id": 13, "when": "10/22 21:10頃", "task": "CA422 Webチェックイン", "assignee": "全員", "category": "推奨手続", "note": "開始時刻は航空会社規定を要確認。"}, {"id": 14, "when": "10/23 日中〜搭乗前", "task": "外国人入国カードオンライン申告", "assignee": "全員", "category": "必須（申告自体）", "note": "QRは発行後24時間有効と資料記載。スクリーンショット保存。"}, {"id": 15, "when": "10/23 出発前", "task": "最終確認", "assignee": "全員", "category": "推奨手続", "note": "パスポート、QR、12306、八達嶺、故宮、動物園予約、eSIM、決済アプリ等。"}, {"id": 16, "when": "10/25 夕方〜夜", "task": "CA183 Webチェックイン", "assignee": "全員", "category": "推奨手続", "note": "10/25は景山またはホテルで実施。"}, {"id": 17, "when": "10/25まで", "task": "12306実ダイヤ最終確認", "assignee": "代表", "category": "要確認", "note": "北京北/清河、八達嶺長城駅、復路時刻を確認。"}, {"id": 18, "when": "10/25まで", "task": "故宮開放公告チェック", "assignee": "代表", "category": "確認", "note": "太和門工事・延禧宮閉鎖等の公開範囲を公式サイトで確認。"}, {"id": 19, "when": "出発直前", "task": "クレジットカード渡航連絡", "assignee": "全員", "category": "確認", "note": "中国渡航による決済ロック防止。"}, {"id": 20, "when": "出発直前", "task": "オフライン地図ダウンロード", "assignee": "全員", "category": "確認", "note": "高徳地図（Amap）または百度地図の北京エリア。"}, {"id": 21, "when": "出発直前", "task": "防寒着準備", "assignee": "全員", "category": "目安", "note": "10月下旬・長城山頂の冷え込みと強風を考慮。"}, {"id": 22, "when": "出発直前", "task": "モバイルバッテリー・電池規則確認", "assignee": "全員", "category": "確認", "note": "CA422/CA183の機内持込規則を確認。預け荷物には入れない。"}, {"id": 23, "when": "出発直前", "task": "電源・充電確認", "assignee": "全員", "category": "追加", "note": "中国220V。本体が100〜240V対応か確認。"}, {"id": 24, "when": "出発直前", "task": "人民元現金を少額用意", "assignee": "全員", "category": "追加", "note": "決済失敗時の予備。"}, {"id": 25, "when": "10/26帰国前", "task": "Visit Japan Web確認", "assignee": "全員", "category": "任意/要確認", "note": "日本入国時の税関申告の事前登録について資料記載。"}];
+const tasks=[
+  {
+    "id": 0, "when": "今すぐ", "task": "パスポート有効期限確認", "assignee": "全員", "category": "必須",
+    "note": "中国側の必要残存期間は資料上未確認。6か月以上は安全側の目安。",
+    "detail": "【目的】入国拒否リスクを防止するため\n【手順】\n1. パスポートの有効期限満了日を確認する。\n2. 帰国日（2026/10/26）時点で残存期間が「6ヶ月以上」残っているか確認する。\n※中国側の必要残存期間規定は未確認のため、安全側の目安として6ヶ月以上を推奨。"
+  },
+  {
+    "id": 1, "when": "今すぐ", "task": "Alipay ＆ WeChat Pay 実名認証", "assignee": "全員", "category": "推奨手続",
+    "note": "アプリDL・クレカ紐付け・パスポート認証。",
+    "detail": "【目的】現地での決済（キャッシュレス化）をスムーズに行うため\n【手順】\n1. 「Alipay（アリペイ）」および「WeChat（微信）」アプリをインストール。\n2. 電話番号登録時、日本の国番号「+81」を選択し、頭の0を除いた番号（例: +81 90...）で登録（※頭に0を入れると認証SMSが届きません）。\n3. アプリ内のIdentity Verification（実名認証）画面からパスポート画像と顔認証を完了させる。\n4. 日本のクレジットカード（Visa/Mastercard等）を登録する。\n※予備として人民元現金を少額用意しておくと安心です。"
+  },
+  {
+    "id": 2, "when": "今すぐ", "task": "Alipay地下鉄QR開通", "assignee": "全員", "category": "推奨手続",
+    "note": "北京設定 → 出行 → 地下鉄/Metro。",
+    "detail": "【目的】券売機で並ばずに地下鉄に乗車するため\n【手順】\n1. Alipayアプリを開く。\n2. 都市設定（画面左上）を「北京（Beijing）」に指定する。\n3. トップ画面の「Transport（出行）」アイコンをタップ。\n4. 「Metro（地下鉄）」を選択し、利用規約に同意の上、乗車QRコードを開通させる。"
+  },
+  {
+    "id": 3, "when": "今すぐ", "task": "eSIM手配", "assignee": "全員", "category": "推奨手続",
+    "note": "VPN不要/LINE・Google利用可能と明記されたローミング型を想定。",
+    "detail": "【目的】現地でVPNなしでLINE・Google・Instagram等を利用するため\n【手順】\n1. 「VPN不要」「香港/マカオ/海外ローミング経由」と明記された中国用eSIMを購入する。\n2. 出発前に日本国内でスマホにeSIM（副回線）のプロファイルをインストール・設定しておく。\n3. 現地到着後、副回線（eSIM）のデータローミングをONにして通信開始を確認する。"
+  },
+  {
+    "id": 4, "when": "今すぐ", "task": "ホテルへの深夜到着連絡", "assignee": "代表", "category": "推奨手続",
+    "note": "10/24未明02:00頃着。CA422・到着予定・宿泊者名・予約番号を連絡。",
+    "detail": "【目的】深夜到着による部屋の自動キャンセル（ノーショウ扱）を防止するため\n【手順】\n1. 宿泊先「北京新僑飯店（Novotel Beijing Peace等）」宛に事前にメール等で連絡を入れる。\n2. 記載内容：フライト便名（CA422）、到着予定時刻（10/24未明 02:00頃）、宿泊者代表名、予約番号。\n3. 「10/23チェックイン開始の宿泊予約」になっていることと、遅延時には再連絡する旨を伝える。"
+  },
+  {
+    "id": 5, "when": "今すぐ〜10/10", "task": "12306アカウント登録・パスポート本人確認", "assignee": "代表", "category": "優先度：高",
+    "note": "パスポート情報を入力し、本人確認まで完了。",
+    "detail": "【目的】10/11の京張高鉄チケット手配に備えるため\n【手順】\n1. 「中国鉄道12306」公式アプリをダウンロード（言語: 英語または中国語）。\n2. アカウントを作成し、ローマ字氏名を「パスポートの表記と完全に一致」させて入力。\n3. パスポート番号等を登録し、事前オンライン本人確認（Verification）を完了させる。"
+  },
+  {
+    "id": 6, "when": "今すぐ〜出発前", "task": "海外旅行保険・たびレジ", "assignee": "全員", "category": "推奨手続",
+    "note": "出発前に加入・登録。",
+    "detail": "【目的】現地トラブル・怪我・病気時の高額負担防止および緊急情報受領のため\n【手順】\n1. クレジットカード帯同保険の補償内容を確認し、不足分はネット海外旅行保険に加入。\n2. 外務省の海外安全情報配信サービス「たびレジ」に渡航日程・滞在先・連絡先を登録する。"
+  },
+  {
+    "id": 7, "when": "10/11頃", "task": "京張高鉄チケット手配", "assignee": "代表", "category": "優先度：高",
+    "note": "北京北駅を最優先、満席なら清河駅。往復を確保。",
+    "detail": "【目的】10/25（日）の八達嶺長城への往復移動を確保するため\n【指定システム】中国鉄道12306アプリ\n【手順】\n1. 発売開始日（乗車日の約15日前＝10/11頃）に12306を開く。\n2. 往路: 「北京北駅 → 八達嶺長城駅」を最優先で検索（満席なら「清河駅」発）。\n3. 復路: 「八達嶺長城駅 → 北京北駅/清河駅」を往路と同時に購入・確保する。\n※八達嶺長城駅は地下深いため、降車後の地上移動に時間がかかります。"
+  },
+  {
+    "id": 8, "when": "10/11頃", "task": "八達嶺長城入場券手配", "assignee": "代表", "category": "予約推奨",
+    "note": "高鉄切符とは別システム。実名制予約を確認。",
+    "detail": "【目的】長城の現地入場をスムーズに行うため\n【手順】\n1. 12306内の観光予約サービス、または八達嶺公式予約サイト/WeChatミニプログラムを開く。\n2. 実名制予約のため、全員分のパスポート情報を入力して予約を完了させる。\n※高鉄の乗車券とはシステムが別のため、個別に手配が必要です。"
+  },
+  {
+    "id": 9, "when": "10/18 21:00", "task": "故宮（紫禁城）入場予約", "assignee": "代表/全員", "category": "優先度：高",
+    "note": "10/25午後枠を手配。WeChat「故宮博物院」等。",
+    "detail": "【目的】10/25（日）午後の故宮博物院見学チケットの確保のため\n【発売開始】訪問7日前の20:00（北京時間）＝ 日本時間 21:00 JST即時手配\n【指定システム】WeChatミニプログラム「故宮博物院」\n【手順】\n1. 21:00ちょうどにWeChatミニプログラム「故宮博物院」を起動。\n2. 10/25午後枠（11:00以降検票可）を選択し、全員分のパスポート情報を入力して決済。\n※無断キャンセル規定があるため、万が一訪問しない場合は事前に取消が必要。"
+  },
+  {
+    "id": 10, "when": "10/18 21:00", "task": "天安門広場の予約要否確認", "assignee": "代表", "category": "要確認",
+    "note": "故宮予約者の別途予約不要という2022年発表があるが、現行運用は出発前再確認。",
+    "detail": "【目的】故宮入場時のルート通過を確実にするため\n【手順】\n1. 故宮予約者は天安門広場の別途予約が不要との発表があるが、最新運用を出発前に確認。\n2. 故宮予約が取れなかった場合のみ、WeChatミニプログラム「天安門地区管委会」で広場単独予約を試みる。\n※10/25の動線は東華門側から午門へ向かうため、広場正面の通過に依存しない設計です。"
+  },
+  {
+    "id": 11, "when": "出発前", "task": "北京動物園の入園方法確認・手配", "assignee": "代表", "category": "要確認",
+    "note": "外国人のWeChat予約、共通券19元等を公式案内で再確認。",
+    "detail": "【目的】10/26（月）朝一番のジャイアントパンダ館見学を円滑にするため\n【手順】\n1. 「北京動物園」のWeChat公式アカウントから外国人パスポート予約ができるか確認。\n2. 共通券（動物園入園＋パンダ館入館＝19元）の購入方法・要否を確認。\n※パンダ館は08:00開館のため、開館直後の時間帯に入園を目指します。"
+  },
+  {
+    "id": 12, "when": "10/24前", "task": "北京国家博物館の雨天代替予約", "assignee": "代表", "category": "要確認",
+    "note": "雨天代替として使う場合のみ。予約時段に沿った入館が必要。",
+    "detail": "【目的】雨天時の代替立ち寄り先として確保するため\n【手順】\n1. 中国国家博物館の公式WeChat/予約サイトにて、無料入館の事前予約枠状況を確認。\n2. 雨天等で日程変更する場合のみ、指定の時間帯枠で予約を取得する。"
+  },
+  {
+    "id": 13, "when": "10/22 21:10頃", "task": "CA422 Webチェックイン", "assignee": "全員", "category": "推奨手続",
+    "note": "開始時刻は航空会社規定を要確認。",
+    "detail": "【目的】羽田空港カウンターでの並び時間短縮・座席確保のため\n【手順】\n1. 出発24時間前（10/22 21:10〜）にエアチャイナ（中国国際航空）アプリまたは公式サイトへアクセス。\n2. 航空券番号（または予約番号）とパスポート情報を入力し、Webチェックインと座席指定を完了させる。"
+  },
+  {
+    "id": 14, "when": "10/23 日中〜搭乗前", "task": "外国人入国カードオンライン申告", "assignee": "全員", "category": "必須（申告自体）",
+    "note": "QRは発行後24時間有効と資料記載。スクリーンショット保存。",
+    "detail": "【目的】北京首都国際空港到着時の入国審査列を大幅に短縮するため\n【指定システム】国家移民管理局サイト、「移民局12367」アプリ、またはWeChat/Alipayのミニプログラム\n【手順】\n1. 10/23の日中〜羽田搭乗前にオンライン申告画面を開く。\n2. パスポート情報・滞在先住所（北京新僑飯店 Novotel Beijing Peace）を入力。\n3. 発行された「入国カードQRコード」を端末にスクリーンショット保存（※有効期限は発行後24時間）。\n※紙の入国カードや空港端末も予備として利用可能です。"
+  },
+  {
+    "id": 15, "when": "10/23 出発前", "task": "最終確認", "assignee": "全員", "category": "推奨手続",
+    "note": "パスポート、QR、12306、八達嶺、故宮、動物園予約、eSIM、決済アプリ等。",
+    "detail": "【目的】現地での通信・移動・入場トラブルを防ぐため\n【手順】\n以下が端末に保存・準備されているか確認：\n・パスポート原本\n・入国カードQR（スクリーンショット）\n・12306往復切符＆八達嶺長城入場券の予約画面\n・故宮入場予約QR\n・北京新僑飯店の中国語住所画面\n・Alipay/WeChat Payの決済テスト・地下鉄QR画面"
+  },
+  {
+    "id": 16, "when": "10/25 夕方〜夜", "task": "CA183 Webチェックイン", "assignee": "全員", "category": "推奨手続",
+    "note": "10/25は景山またはホテルで実施。",
+    "detail": "【目的】復路便（10/26 17:10発 CA183）の座席指定とチェックインのため\n【手順】\n1. 出発24時間前に景山公園散策中またはホテルにてエアチャイナアプリよりオンラインチェックインを行う。"
+  },
+  {
+    "id": 17, "when": "10/25まで", "task": "12306実ダイヤ最終確認", "assignee": "代表", "category": "要確認",
+    "note": "北京北/清河、八達嶺長城駅、復路時刻を確認。",
+    "detail": "【目的】高鉄のダイヤ改正や遅延リスクの事前確認のため\n【手順】\n1. 12306アプリで手配済みの列車番号・発着時刻・発着駅（北京北または清河）を最終照合する。"
+  },
+  {
+    "id": 18, "when": "10/25まで", "task": "故宮開放公告チェック", "assignee": "代表", "category": "確認",
+    "note": "太和門工事・延禧宮閉鎖等の公開範囲を公式サイトで確認。",
+    "detail": "【目的】故宮内部の当日公開・工事状況を把握するため\n【手順】\n1. 故宮博物院の公式サイト/WeChatにて工事（太和門等）や閉鎖エリアの最新情報を確認。"
+  },
+  {
+    "id": 19, "when": "出発直前", "task": "クレジットカード渡航連絡", "assignee": "全員", "category": "確認",
+    "note": "中国渡航による決済ロック防止。",
+    "detail": "【目的】現地でクレジットカードやAlipay決済が不正利用検知でブロックされるのを防ぐため\n【手順】\n1. 利用予定のカード会社（アプリまたは電話）に中国渡航期間（10/23〜10/26）の連絡を入れておく。"
+  },
+  {
+    "id": 20, "when": "出発直前", "task": "オフライン地図ダウンロード", "assignee": "全員", "category": "確認",
+    "note": "高徳地図（Amap）または百度地図の北京エリア。",
+    "detail": "【目的】通信が不安定な場所でも地図検索を可能にするため\n【手順】\n1. 高徳地図（Amap）または百度地図アプリをダウンロード。\n2. アプリ内で「北京（Beijing）」のオフラインマップデータをあらかじめダウンロードしておく。"
+  },
+  {
+    "id": 21, "when": "出発直前", "task": "防寒着準備", "assignee": "全員", "category": "目安",
+    "note": "10月下旬・長城山頂の冷え込みと強風を考慮。",
+    "detail": "【目的】長城山頂や早朝の冷え込みに対応するため\n【手順】\n1. 10月下旬の北京は朝晩が冷え込み、八達嶺長城は強風が予想されるため、ウインドブレーカーや脱ぎ着しやすい上着を用意する。"
+  },
+  {
+    "id": 22, "when": "出発直前", "task": "モバイルバッテリー・電池規則確認", "assignee": "全員", "category": "確認",
+    "note": "CA422/CA183の機内持込規則を確認。預け荷物には入れない。",
+    "detail": "【目的】空港の保安検査での没収を防ぐため\n【手順】\n1. モバイルバッテリーは必ず「手荷物（機内持ち込み）」にする（預け荷物不可）。\n2. 定格容量（Wh）が明記されているものを用意し、航空会社の規定（一般的に100Wh以下）内であることを確認。"
+  },
+  {
+    "id": 23, "when": "出発直前", "task": "電源・充電確認", "assignee": "全員", "category": "追加",
+    "note": "中国220V。本体が100〜240V対応か確認。",
+    "detail": "【目的】変圧器なしで充電器を使用できるか確認するため\n【手順】\n1. スマホやカメラの充電器のラベルに「INPUT: 100-240V」と記載されているか確認する（対応していれば中国の220Vでそのまま使用可能）。"
+  },
+  {
+    "id": 24, "when": "出発直前", "task": "人民元現金を少額用意", "assignee": "全員", "category": "追加",
+    "note": "決済失敗時の予備。",
+    "detail": "【目的】スマホのバッテリー切れやアプリ決済障害に備えるため\n【手順】\n1. 空港や両替所で少額（100〜200元程度）の人民元現金を用意しておく。"
+  },
+  {
+    "id": 25, "when": "10/26帰国前", "task": "Visit Japan Web確認", "assignee": "全員", "category": "任意/要確認",
+    "note": "日本入国時の税関申告の事前登録について資料記載。",
+    "detail": "【目的】羽田空港到着時の税関手続きをスムーズにするため\n【手順】\n1. 「Visit Japan Web」にアクセスし、日本入国・税関申告情報を事前登録してQRコードを発行しておく。"
+  }
+];
+
 const KEY="beijing2026_check_v1";
 let state=JSON.parse(localStorage.getItem(KEY)||"{}"), filter="all", hideDone=false;
 const esc=s=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
@@ -48,8 +189,22 @@ function render(){
  document.getElementById("list").innerHTML=visible.length?visible.map(t=>`
  <article class="card ${isDone(t)?"done":""}">
  <input class="check" type="checkbox" ${isDone(t)?"checked":""} data-id="${t.id}">
- <div><div class="task">${esc(t.task)}</div><div class="meta"><span class="tag">${esc(t.assignee)}</span><span class="tag ${important(t)?"important":""}">${esc(t.category)}</span></div><div class="note">${esc(t.note)}</div></div>
- <div class="when">${esc(t.when)}</div></article>`).join(""):'<div class="empty">該当するタスクはありません。</div>';
+ <div>
+   <div class="task">${esc(t.task)}</div>
+   <div class="meta">
+     <span class="tag">${esc(t.assignee)}</span>
+     <span class="tag ${important(t)?"important":""}">${esc(t.category)}</span>
+   </div>
+   <div class="note">${esc(t.note)}</div>
+   ${t.detail ? `
+   <details class="guide-accordion">
+     <summary>具体的なやり方・手順を見る</summary>
+     <div class="guide-content">${esc(t.detail)}</div>
+   </details>
+   ` : ''}
+ </div>
+ <div class="when">${esc(t.when)}</div>
+ </article>`).join(""):'<div class="empty">該当するタスクはありません。</div>';
  document.querySelectorAll(".check").forEach(x=>x.onchange=()=>{state[x.dataset.id]=x.checked;save()});
 }
 document.getElementById("person").onchange=render;
