@@ -22,6 +22,7 @@ details.guide-accordion summary::-webkit-details-marker{display:none}
 details.guide-accordion summary::before{content:"▶";font-size:10px;transition:transform .2s}
 details.guide-accordion[open] summary::before{transform:rotate(90deg)}
 .guide-content{font-size:12px;line-height:1.6;color:var(--text);background:var(--surface2);border-radius:8px;padding:10px;margin-top:6px;white-space:pre-wrap}
+.guide-content a{color:var(--accent);text-decoration:underline;word-break:break-all}
 
 @media(max-width:700px){.top{grid-template-columns:1fr} .card{grid-template-columns:auto 1fr} .when{grid-column:2} h1{font-size:22px}}
 </style>
@@ -64,17 +65,17 @@ const tasks=[
   {
     "id": 5, "when": "今すぐ〜10/10", "task": "12306アカウント登録・パスポート本人確認", "assignee": "代表", "category": "優先度：高",
     "note": "パスポート情報を入力し、本人確認まで完了。",
-    "detail": "【目的】10/11の京張高鉄チケット手配に備えるため\n【手順】\n1. 「中国鉄道12306」公式アプリをダウンロード（言語: 英語または中国語）。\n2. アカウントを作成し、ローマ字氏名を「パスポートの表記と完全に一致」させて入力。\n3. パスポート番号等を登録し、事前オンライン本人確認（Verification）を完了させる。"
+    "detail": "【目的】10/11の京張高鉄チケット手配に備えるため\n【関連リンク】https://www.12306.cn/\n【手順】\n1. 「中国鉄道12306」公式アプリをダウンロード（言語: 英語または中国語）または公式サイト（ https://www.12306.cn/ ）にアクセス。\n2. アカウントを作成し、ローマ字氏名を「パスポートの表記と完全に一致」させて入力。\n3. パスポート番号等を登録し、事前オンライン本人確認（Verification）を完了させる。"
   },
   {
     "id": 6, "when": "今すぐ〜出発前", "task": "海外旅行保険・たびレジ", "assignee": "全員", "category": "推奨手続",
     "note": "出発前に加入・登録。",
-    "detail": "【目的】現地トラブル・怪我・病気時の高額負担防止および緊急情報受領のため\n【手順】\n1. クレジットカード帯同保険の補償内容を確認し、不足分はネット海外旅行保険に加入。\n2. 外務省の海外安全情報配信サービス「たびレジ」に渡航日程・滞在先・連絡先を登録する。"
+    "detail": "【目的】現地トラブル・怪我・病気時の高額負担防止および緊急情報受領のため\n【関連リンク】たびレジ: https://www.ezairyu.mofa.go.jp/tabireg/\n【手順】\n1. クレジットカード帯同保険の補償内容を確認し、不足分はネット海外旅行保険に加入。\n2. 外務省の海外安全情報配信サービス「たびレジ」（ https://www.ezairyu.mofa.go.jp/tabireg/ ）に渡航日程・滞在先・連絡先を登録する。"
   },
   {
     "id": 7, "when": "10/11頃", "task": "京張高鉄チケット手配", "assignee": "代表", "category": "優先度：高",
     "note": "北京北駅を最優先、満席なら清河駅。往復を確保。",
-    "detail": "【目的】10/25（日）の八達嶺長城への往復移動を確保するため\n【指定システム】中国鉄道12306アプリ\n【手順】\n1. 発売開始日（乗車日の約15日前＝10/11頃）に12306を開く。\n2. 往路: 「北京北駅 → 八達嶺長城駅」を最優先で検索（満席なら「清河駅」発）。\n3. 復路: 「八達嶺長城駅 → 北京北駅/清河駅」を往路と同時に購入・確保する。\n※八達嶺長城駅は地下深いため、降車後の地上移動に時間がかかります。"
+    "detail": "【目的】10/25（日）の八達嶺長城への往復移動を確保するため\n【指定システム】中国鉄道12306（ https://www.12306.cn/ ）\n【手順】\n1. 発売開始日（乗車日の約15日前＝10/11頃）に12306を開く。\n2. 往路: 「北京北駅 → 八達嶺長城駅」を最優先で検索（満席なら「清河駅」発）。\n3. 復路: 「八達嶺長城駅 → 北京北駅/清河駅」を往路と同時に購入・確保する。\n※八達嶺長城駅は地下深いため、降車後の地上移動に時間がかかります。"
   },
   {
     "id": 8, "when": "10/11頃", "task": "八達嶺長城入場券手配", "assignee": "代表", "category": "予約推奨",
@@ -104,12 +105,12 @@ const tasks=[
   {
     "id": 13, "when": "10/22 21:10頃", "task": "CA422 Webチェックイン", "assignee": "全員", "category": "推奨手続",
     "note": "開始時刻は航空会社規定を要確認。",
-    "detail": "【目的】羽田空港カウンターでの並び時間短縮・座席確保のため\n【手順】\n1. 出発24時間前（10/22 21:10〜）にエアチャイナ（中国国際航空）アプリまたは公式サイトへアクセス。\n2. 航空券番号（または予約番号）とパスポート情報を入力し、Webチェックインと座席指定を完了させる。"
+    "detail": "【目的】羽田空港カウンターでの並び時間短縮・座席確保のため\n【関連リンク】中国国際航空公式: https://www.airchina.jp/\n【手順】\n1. 出発24時間前（10/22 21:10〜）にエアチャイナ（中国国際航空）アプリまたは公式サイト（ https://www.airchina.jp/ ）へアクセス。\n2. 航空券番号（または予約番号）とパスポート情報を入力し、Webチェックインと座席指定を完了させる。"
   },
   {
-    "id": 14, "when": "10/23 日中〜搭乗前", "task": "外国人入国カードオンライン申告", "assignee": "全員", "category": "必須（申告自体）",
-    "note": "QRは発行後24時間有効と資料記載。スクリーンショット保存。",
-    "detail": "【目的】北京首都国際空港到着時の入国審査列を大幅に短縮するため\n【指定システム】国家移民管理局サイト、「移民局12367」アプリ、またはWeChat/Alipayのミニプログラム\n【手順】\n1. 10/23の日中〜羽田搭乗前にオンライン申告画面を開く。\n2. パスポート情報・滞在先住所（北京新僑飯店 Novotel Beijing Peace）を入力。\n3. 発行された「入国カードQRコード」を端末にスクリーンショット保存（※有効期限は発行後24時間）。\n※紙の入国カードや空港端末も予備として利用可能です。"
+    "id": 14, "when": "事前（3ヶ月前から可能）", "task": "外国人入国カードオンライン申告", "assignee": "全員", "category": "必須（申告自体）",
+    "note": "中国到着の3ヶ月前から申告可能。取得した「Entry Declaration Receipt」QRコードをスクリーンショット保存。",
+    "detail": "【目的】北京首都国際空港到着時の入国手続き（外国人入境卡）をスムーズにするため\n【関連リンク】\n・スマホ版: https://s.nia.gov.cn/ArrivalCardFillingPhone/\n・PC版: https://s.nia.gov.cn/ArrivalCardFillingPC/entry-registation-home\n・大使館案内: https://jp.china-embassy.gov.cn/chn/\n【指定システム】国家移民管理局（NIA）公式サイト、12367アプリ、またはWeChat/Alipayミニプログラム\n【手順・確認事項】\n1. 国家移民管理局（NIA）の「外国人填报回执（Entry Declaration Receipt for Foreigner）」が発行されているか確認（※中国到着日の3ヶ月前から申請可能です）。\n2. 記載内容（パスポート番号、氏名: USAMI KYO、入国都市: Beijing、入国口岸: Airport、入境日付: 2026-10-24）に誤りがないか確認する。\n3. 発行された二次元コード（QRコード）を端末にスクリーンショット保存し、オフラインでもすぐ提示できるようにしておく。\n※申告は完全無料です。間違えた場合は最初から再申請が必要です。通信障害や不備があった場合でも、現地到着後に空港の端末や紙の入国カードで手続き可能です。健康申告は原則不要です。"
   },
   {
     "id": 15, "when": "10/23 出発前", "task": "最終確認", "assignee": "全員", "category": "推奨手続",
@@ -119,17 +120,17 @@ const tasks=[
   {
     "id": 16, "when": "10/25 夕方〜夜", "task": "CA183 Webチェックイン", "assignee": "全員", "category": "推奨手続",
     "note": "10/25は景山またはホテルで実施。",
-    "detail": "【目的】復路便（10/26 17:10発 CA183）の座席指定とチェックインのため\n【手順】\n1. 出発24時間前に景山公園散策中またはホテルにてエアチャイナアプリよりオンラインチェックインを行う。"
+    "detail": "【目的】復路便（10/26 17:10発 CA183）の座席指定とチェックインのため\n【関連リンク】中国国際航空公式: https://www.airchina.jp/\n【手順】\n1. 出発24時間前に景山公園散策中またはホテルにてエアチャイナアプリまたは公式サイト（ https://www.airchina.jp/ ）よりオンラインチェックインを行う。"
   },
   {
     "id": 17, "when": "10/25まで", "task": "12306実ダイヤ最終確認", "assignee": "代表", "category": "要確認",
     "note": "北京北/清河、八達嶺長城駅、復路時刻を確認。",
-    "detail": "【目的】高鉄のダイヤ改正や遅延リスクの事前確認のため\n【手順】\n1. 12306アプリで手配済みの列車番号・発着時刻・発着駅（北京北または清河）を最終照合する。"
+    "detail": "【目的】高鉄のダイヤ改正や遅延リスクの事前確認のため\n【関連リンク】https://www.12306.cn/\n【手順】\n1. 12306アプリまたは公式サイトで手配済みの列車番号・発着時刻・発着駅（北京北または清河）を最終照合する。"
   },
   {
     "id": 18, "when": "10/25まで", "task": "故宮開放公告チェック", "assignee": "代表", "category": "確認",
     "note": "太和門工事・延禧宮閉鎖等の公開範囲を公式サイトで確認。",
-    "detail": "【目的】故宮内部の当日公開・工事状況を把握するため\n【手順】\n1. 故宮博物院の公式サイト/WeChatにて工事（太和門等）や閉鎖エリアの最新情報を確認。"
+    "detail": "【目的】故宮内部の当日公開・工事状況を把握するため\n【関連リンク】故宮博物院公式: https://www.dpm.org.cn/\n【手順】\n1. 故宮博物院の公式サイト（ https://www.dpm.org.cn/ ）やWeChatにて工事（太和門等）や閉鎖エリアの最新情報を確認。"
   },
   {
     "id": 19, "when": "出発直前", "task": "クレジットカード渡航連絡", "assignee": "全員", "category": "確認",
@@ -164,32 +165,44 @@ const tasks=[
   {
     "id": 25, "when": "10/26帰国前", "task": "Visit Japan Web確認", "assignee": "全員", "category": "任意/要確認",
     "note": "日本入国時の税関申告の事前登録について資料記載。",
-    "detail": "【目的】羽田空港到着時の税関手続きをスムーズにするため\n【手順】\n1. 「Visit Japan Web」にアクセスし、日本入国・税関申告情報を事前登録してQRコードを発行しておく。"
+    "detail": "【目的】羽田空港到着時の税関手続きをスムーズにするため\n【関連リンク】Visit Japan Web: https://vjw-lp.digital.go.jp/\n【手順】\n1. 「Visit Japan Web」（ https://vjw-lp.digital.go.jp/ ）にアクセスし、日本入国・税関申告情報を事前登録してQRコードを発行しておく。"
   }
 ];
 
 const KEY="beijing2026_check_v1";
 let state=JSON.parse(localStorage.getItem(KEY)||"{}"), filter="all", hideDone=false;
 const esc=s=>String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const linkify=s=>esc(s).replace(/https?:\/\/[^\s\n<]+/g,m=>`<a href="${m}" target="_blank" rel="noopener noreferrer">${m}</a>`);
 function isDone(t){return !!state[t.id]}
 function important(t){return /必須|優先度：高/.test(t.category)}
 function save(){localStorage.setItem(KEY,JSON.stringify(state)); render()}
 function render(){
  const personMode=document.getElementById("person").value; // "all" (全員) または "leader" (代表)
- const visible=tasks.filter(t=>{
-   // モード切り替えロジック
-   // "leader": 代表者が担当する手手配・予約タスク（t.assignee === "代表"）
-   // "all": 代表者以外の一般メンバーが実施する共通タスク（t.assignee === "全員"）
-   const matchPerson = (personMode === "leader") ? (t.assignee === "代表") : (t.assignee === "全員");
+ 
+ // 対象タスクの絞り込み（母集団）
+ // モードが "all"（全員）の場合: t.assignee === "全員" のタスクのみ
+ // モードが "leader"（代表）の場合: t.assignee === "代表" または t.assignee === "全員"（代表のタスク＋全員のタスクの合計）
+ const targetTasks = tasks.filter(t => {
+   return (personMode === "leader") ? (t.assignee === "代表" || t.assignee === "全員") : (t.assignee === "全員");
+ });
+
+ // 表示用タスク（フィルターや完了非表示の適用）
+ const visible = targetTasks.filter(t => {
    const matchFilter = (filter==="all" || (filter==="open"&&!isDone(t)) || (filter==="done"&&isDone(t)) || (filter==="important"&&important(t)));
    const matchHide = (!hideDone || !isDone(t));
-   return matchPerson && matchFilter && matchHide;
+   return matchFilter && matchHide;
  });
- const total=tasks.length, done=tasks.filter(isDone).length, pct=total?Math.round(done/total*100):0;
+
+ // 進捗数・％の計算（選択された対象タスク全体を分母として計算）
+ const total = targetTasks.length;
+ const done = targetTasks.filter(isDone).length;
+ const pct = total ? Math.round(done / total * 100) : 0;
+
  document.getElementById("count").textContent=`${done} / ${total}`;
  document.getElementById("pct").textContent=pct+"%";
  document.getElementById("bar").style.width=pct+"%";
  document.getElementById("shown").textContent=visible.length;
+
  document.getElementById("list").innerHTML=visible.length?visible.map(t=>`
  <article class="card ${isDone(t)?"done":""}">
  <input class="check" type="checkbox" ${isDone(t)?"checked":""} data-id="${t.id}">
@@ -203,12 +216,13 @@ function render(){
    ${t.detail ? `
    <details class="guide-accordion">
      <summary>具体的なやり方・手順を見る</summary>
-     <div class="guide-content">${esc(t.detail)}</div>
+     <div class="guide-content">${linkify(t.detail)}</div>
    </details>
    ` : ''}
  </div>
  <div class="when">${esc(t.when)}</div>
  </article>`).join(""):'<div class="empty">該当するタスクはありません。</div>';
+
  document.querySelectorAll(".check").forEach(x=>x.onchange=()=>{state[x.dataset.id]=x.checked;save()});
 }
 document.getElementById("person").onchange=render;
